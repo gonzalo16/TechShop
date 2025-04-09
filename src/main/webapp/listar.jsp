@@ -112,6 +112,7 @@ Optional<String> email = (Optional<String>) request.getAttribute("email");
 										<th scope="col">Precio</th>
 										<th scope="col">Agregar</th>
 										<th scope="col">Editar</th>
+										<th scope="col">Eliminar</th>
 										<%
 										}
 										%>
@@ -136,6 +137,9 @@ Optional<String> email = (Optional<String>) request.getAttribute("email");
 										<td><a
 											class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
 											href="<%=request.getContextPath()%>/productos/form?id=<%=p.getId()%>">Editar</a></td>
+										<td><a
+											onclick="return confirm('¿Estas seguro que desea eliminar?');" class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+											href="<%=request.getContextPath()%>/productos/eliminar?id=<%=p.getId()%>">Eliminar</a></td>
 										<%
 										}
 										%>

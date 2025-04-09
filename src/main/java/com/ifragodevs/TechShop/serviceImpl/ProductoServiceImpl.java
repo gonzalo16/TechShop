@@ -48,5 +48,10 @@ public class ProductoServiceImpl implements ProductoService{
 		return listCategoria;
 	}
 
+	@Override
+	public void eliminar(Integer id) throws SQLException {
+		repository.eliminar(id);
+	}
+
 
 }

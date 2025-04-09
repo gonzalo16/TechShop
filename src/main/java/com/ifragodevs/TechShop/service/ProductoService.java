@@ -13,5 +13,7 @@ public interface ProductoService extends Repository<Producto>{
 	
 	List<Categoria> listarCategoria();
 	
+	void eliminar(Integer id) throws SQLException;
+	
 	void save(Producto producto) throws SQLException;
 }

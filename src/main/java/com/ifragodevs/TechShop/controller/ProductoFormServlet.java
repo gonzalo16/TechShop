@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+
 
 import com.ifragodevs.TechShop.entity.Categoria;
 import com.ifragodevs.TechShop.entity.Producto;
@@ -32,7 +32,7 @@ public class ProductoFormServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			Connection conn = (Connection) req.getAttribute("conexion");
 			ProductoServiceImpl productoService = new ProductoServiceImpl(conn);
-			req.setAttribute("categorias", productoService.listarCategoria());
+			
 			Integer idProducto;
 			try{
 				idProducto = Integer.valueOf(req.getParameter("id"));
@@ -52,6 +52,7 @@ public class ProductoFormServlet extends HttpServlet{
 				}
 			}
 			
+			req.setAttribute("categorias", productoService.listarCategoria());
 			req.setAttribute("producto", producto);
 			getServletContext().getRequestDispatcher("/productForm.jsp").forward(req, resp);
 	}
@@ -64,6 +65,7 @@ public class ProductoFormServlet extends HttpServlet{
 		//OBTENCION DE DATOS
 		String nombre = req.getParameter("nombre");
 		String id_categoriaStr = req.getParameter("categoria");
+		Integer id_producto;
 		Integer id_categoria = 0;
 		Integer precio = null;
 		
@@ -106,10 +108,16 @@ public class ProductoFormServlet extends HttpServlet{
 			fecha = null;
 		}
 		
+		try {
+			id_producto = Integer.parseInt(req.getParameter("id"));
+		}catch(NumberFormatException e) {
+			id_producto = 0;
+		}
 		Producto nuevoProducto = new Producto();
 		Categoria categoriaSeleccioada = new Categoria();
 		categoriaSeleccioada.setId(id_categoria);
 		
+		nuevoProducto.setId(id_producto);
 		nuevoProducto.setNombre(nombre);
 		nuevoProducto.setPrecio(precio);
 		nuevoProducto.setSku(sku);

@@ -149,8 +149,8 @@ String fecha =  producto.getFechaRegistro() != null? producto.getFechaRegistro()
 					</div>
 
 
-
-					<button type="submit" class="btn btn-primary">Enviar</button>
+					<input type="hidden" name="id" value="<%=producto.getId()%>"></input>
+					<input type="submit" class="btn btn-primary" value="<%=(producto.getId() != null && producto.getId() > 0)? "Editar":"Crear"%>"></button>
 				</form>
 
 			</div>

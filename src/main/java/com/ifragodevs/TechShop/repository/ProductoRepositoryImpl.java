@@ -45,7 +45,7 @@ public class ProductoRepositoryImpl implements Repository<Producto>{
 
 	@Override
 	public Producto findById(Integer id) throws SQLException {
-		Producto p = new Producto();
+		Producto p = null;
 		try(PreparedStatement stmt = conn.prepareStatement("SELECT p.*,c.nombre as categoria FROM productos as p "
 				+ "INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE p.id= ?")){
 			
@@ -103,4 +103,14 @@ public class ProductoRepositoryImpl implements Repository<Producto>{
 
 	        return p;
 	    }
+
+	@Override
+	public void eliminar(Integer id) throws SQLException {
+		String sql = "delete from productos where id=?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+
+	}
 }
