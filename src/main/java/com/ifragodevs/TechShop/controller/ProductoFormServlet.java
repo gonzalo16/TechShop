@@ -1,7 +1,6 @@
 package com.ifragodevs.TechShop.controller;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,11 +8,12 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+import com.ifragodevs.TechShop.configs.ProductoServicePrincipal;
 import com.ifragodevs.TechShop.entity.Categoria;
 import com.ifragodevs.TechShop.entity.Producto;
-import com.ifragodevs.TechShop.serviceImpl.ProductoServiceImpl;
+import com.ifragodevs.TechShop.service.ProductoService;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,15 +23,14 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/productos/form")
 public class ProductoFormServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	@ProductoServicePrincipal
+	private ProductoService productoService;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			Connection conn = (Connection) req.getAttribute("conexion");
-			ProductoServiceImpl productoService = new ProductoServiceImpl(conn);
 			
 			Integer idProducto;
 			try{
@@ -59,8 +58,6 @@ public class ProductoFormServlet extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Connection conn = (Connection) req.getAttribute("conexion");
-		ProductoServiceImpl productoService = new ProductoServiceImpl(conn);
 		
 		//OBTENCION DE DATOS
 		String nombre = req.getParameter("nombre");

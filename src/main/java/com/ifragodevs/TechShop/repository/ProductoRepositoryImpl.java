@@ -9,17 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ifragodevs.TechShop.anotations.RepositoryAnnotation;
 import com.ifragodevs.TechShop.entity.Categoria;
 import com.ifragodevs.TechShop.entity.Producto;
 
-public class ProductoRepositoryImpl implements Repository<Producto>{
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
+@RepositoryAnnotation
+public class ProductoRepositoryImpl implements ProductoRepository{
+
+	@Inject
+	@Named("connBean")
 	private Connection conn;
-	
-	public ProductoRepositoryImpl(Connection conn) {
-		this.conn = conn;
-	}
-	
+		
 	@Override
 	public List<Producto> listar() throws SQLException {
 		List<Producto> productos = new ArrayList<>();

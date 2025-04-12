@@ -11,9 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/ver-carro")
 public class VerCarroServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override

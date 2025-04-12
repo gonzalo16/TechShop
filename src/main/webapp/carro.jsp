@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.ifragodevs.TechShop.entity.*"%>
-<%
-Carro carro = (Carro) session.getAttribute("carro");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,62 +19,21 @@ Carro carro = (Carro) session.getAttribute("carro");
 <body>
 
 	<div class="wrapper">
-		<!-- Sidebar  -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-				<h3>Bootstrap Sidebar</h3>
-			</div>
-
-			<ul class="list-unstyled components">
-				<p>Dummy Heading</p>
-				<li><a href="#" data-toggle="collapse" aria-expanded="false">Home</a></li>
-				<li><a href="/TechShop/productos.html" data-toggle="collapse"
-					aria-expanded="false">Productos</a></li>
-				<li><a href="/TechShop/carro.jsp" data-toggle="collapse"
-					aria-expanded="false">Carrito</a></li>
-				<li><a href="/TechShop/login.html" data-toggle="collapse"
-					aria-expanded="false">Login</a></li>
-
-			</ul>
-		</nav>
-
-		<!-- Page Content  -->
+		<!-- Aqui debemos agregar el archivo sidebar de layout  -->
+		<jsp:include page="layout/sidebar.jsp" />
 		<div id="content">
 
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
+			<!-- Navbar -->
+			<jsp:include page="layout/navbar.jsp" />
+			
+			<c:choose>
+			<c:when
+				test="${carro == null || carro.items.isEmpty()}">
+				<div class="alert alert-warning">Lo sentimos no hay productos en el carro de compras</div>
+			</c:when>
 
-					<button type="button" id="sidebarCollapse" class="btn btn-info">
-						<i class="fas fa-align-left"></i> <span>Toggle Sidebar</span>
-					</button>
-					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<i class="fas fa-align-justify"></i>
-					</button>
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="nav navbar-nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="#">Page</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-
-				<%
-				if (carro == null || carro.getItems().size() == 0) {
-				%>
-				<p>Lo sentimos no hay productos en el carro</p>
-				<%
-				} else {
-				%>
-				<div class="container border rounded p-2">
+			<c:otherwise>
+			<div class="container border rounded p-2">
 				<table class="table">
 					<tr>
 						<th>Id</th>
@@ -84,27 +42,19 @@ Carro carro = (Carro) session.getAttribute("carro");
 						<th>Cantidad</th>
 						<th>Total</th>
 					</tr>
-					<%
-					for (ItemCarro item : carro.getItems()) {
-					%>
+					<c:forEach items="${carro.items}" var="item">
 					<tr>
-						<td><%=item.getProducto().getId()%></td>
-						<td><%=item.getProducto().getNombre()%></td>
-						<td><%=item.getProducto().getPrecio()%></td>
-						<td><%=item.getCantidad()%></td>
-						<td><%=item.getImporte()%></td>
+						<td>${item.producto.id}</td>
+						<td>${item.producto.nombre}</td>
+						<td>${item.producto.precio}</td>
+						<td>${item.cantidad}</td>
+						<td>${item.importe}</td>
 					</tr>
-					<%
-					}
-					%>
+					</c:forEach>
 				</table>
-
-				<%
-				}
-				%>
-				</div>
-				
-
+			</div>
+			</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 

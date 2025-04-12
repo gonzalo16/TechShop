@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.ifragodevs.TechShop.entity.Categoria;
 import com.ifragodevs.TechShop.entity.Producto;
-import com.ifragodevs.TechShop.repository.Repository;
 
-public interface ProductoService extends Repository<Producto>{
+public interface ProductoService{
 	
 	List<Producto> listar() throws SQLException;
 	
 	List<Categoria> listarCategoria();
+	
+	Producto findById(Integer id) throws SQLException;
 	
 	void eliminar(Integer id) throws SQLException;
 	

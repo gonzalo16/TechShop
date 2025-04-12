@@ -12,6 +12,7 @@ public class ConexionBBDD {
 	private static String password = "sasa";
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException {
+		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		return DriverManager.getConnection(url,username,password);
 	}

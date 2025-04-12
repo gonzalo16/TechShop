@@ -1,17 +1,6 @@
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	import=
-	"java.util.*,
-	java.time.format.*,
-	com.ifragodevs.TechShop.entity.*"
-	pageEncoding="UTF-8"%>
+<%@page import="java.time.format.DateTimeFormatter" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%
-List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
-Map<String,String> errores = (Map<String,String>) request.getAttribute("errores");
-Producto producto = (Producto)request.getAttribute("producto");
-String fecha =  producto.getFechaRegistro() != null? producto.getFechaRegistro().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")): "";
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,67 +19,28 @@ String fecha =  producto.getFechaRegistro() != null? producto.getFechaRegistro()
 <body>
 
 	<div class="wrapper">
-		<!-- Sidebar  -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-				<h3>Bootstrap Sidebar</h3>
-			</div>
-
-			<ul class="list-unstyled components">
-				<p>Dummy Heading</p>
-				<li><a href="#" data-toggle="collapse" aria-expanded="false">Home</a></li>
-				<li><a href="/TechShop/productos.html" data-toggle="collapse"
-					aria-expanded="false">Productos</a></li>
-				<li><a href="/TechShop/carro.jsp" data-toggle="collapse"
-					aria-expanded="false">Carrito</a></li>
-				<li><a href="/TechShop/login.html" data-toggle="collapse"
-					aria-expanded="false">Login</a></li>
-
-			</ul>
-		</nav>
+		<!-- Aqui debemos agregar el archivo sidebar de layout  -->
+		<jsp:include page="layout/sidebar.jsp" />
 
 		<!-- Page Content  -->
 		<div id="content">
-
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-
-					<button type="button" id="sidebarCollapse" class="btn btn-info">
-						<i class="fas fa-align-left"></i> <span>Toggle Sidebar</span>
-					</button>
-					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<i class="fas fa-align-justify"></i>
-					</button>
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="nav navbar-nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="#">Page</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-
+			
+			<!-- Navbar -->
+			<jsp:include page="layout/navbar.jsp" />
+			
 			<div class="container">
-				<p class="display-5">Añadir producto</p>
-				<form action="<%=request.getContextPath()%>/productos/form" method="post">
+				<p class="display-6">Añadir producto</p>
+				<form action="${pageContext.request.contextPath}/productos/form" method="post">
 					<div class="row">
 						<div class="col-6">
 							<div class="mb-3">
 								<label for="nombre" class="form-label">Nombre</label>
 								<input
 									type="text" class="form-control" id="nombre"
-									aria-describedby="nombreHelp" name="nombre" value="<%=producto.getNombre() != null ? producto.getNombre(): ""%>">
-								<%if(errores != null && errores.containsKey("nombre")){ %>
-									<div style="color:red;"><%=errores.get("nombre") %></div>
-								<%} %>
+									aria-describedby="nombreHelp" name="nombre" value="${producto.nombre}">
+								<c:if test="${errores != null && errores.containsKey('nombre')}">
+									<div style="color:red;">${errores.nombre}</div>
+								</c:if>
 							</div>
 						</div>
 
@@ -98,20 +48,20 @@ String fecha =  producto.getFechaRegistro() != null? producto.getFechaRegistro()
 							<label for="sku" class="form-label">SKU</label> 
 							<input
 								type="text" class="form-control" id="sku"
-								aria-describedby="nombreHelp" name="sku" value="<%=producto.getSku() != null ? producto.getSku() : ""%>">
-								<%if(errores != null && errores.containsKey("sku")){ %>
-									<div style="color:red;"><%=errores.get("sku") %></div>
-								<%} %>
+								aria-describedby="nombreHelp" name="sku" value="${producto.sku}">
+								<c:if test="${errores != null && !empty errores.sku}">
+										<div style="color:red;">${errores.sku}</div>
+								</c:if>
 						</div>
 						<div class="col-3">
 							<div class="mb-3">
 								<label for="precio" class="form-label">Precio</label>
 								<input
 									type="number" min="0" class="form-control" id="precio"
-									name="precio" value="<%=producto.getPrecio() != 0 ? producto.getPrecio() : ""%>">
-									<%if(errores != null && errores.containsKey("precio")){ %>
-									<div style="color:red;"><%=errores.get("precio") %></div>
-								<%} %>
+									name="precio" value="${producto.precio > 0? producto.precio: ""}">
+									<c:if test="${errores != null && !empty errores.precio}">
+										<div style="color:red;">${errores.precio}</div>
+									</c:if>
 							</div>
 						</div>
 					</div>
@@ -122,10 +72,10 @@ String fecha =  producto.getFechaRegistro() != null? producto.getFechaRegistro()
 								<label for="fecha_registro" class="form-label">Fecha
 									registro</label>
 									<input type="date" class="form-control"
-									id="fecha_registro" name="fecha_registro" value="<%=fecha%>">
-									<%if(errores != null && errores.containsKey("fecha_registro")){ %>
-									<div style="color:red;"><%=errores.get("fecha_registro") %></div>
-								<%} %>
+									id="fecha_registro" name="fecha_registro" value="${producto.fechaRegistro != null ? producto.fechaRegistro.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")): ""}">
+									<c:if test="${errores != null && !empty errores.fecha_registro}">
+										<div style="color:red;">${errores.fecha_registro}</div>
+									</c:if>
 							</div>
 						</div>
 						<div class="col-6">
@@ -133,24 +83,20 @@ String fecha =  producto.getFechaRegistro() != null? producto.getFechaRegistro()
 								<label for="categoria" class="form-label">Categorias</label> <select
 									class="form-control" name="categoria" id="categoria">
 									<option value="">Seleccionar</option>
-									<%
-									for (Categoria c : categorias) {
-									%>
-									<option value="<%=c.getId()%>" <%=c.getId().equals(producto.getCategoria().getId())? "selected" : "" %>><%=c.getNombre()%></option>
-									<%
-									}
-									%>
+									<c:forEach items="${categorias}" var="c">
+									<option value="${c.id}" ${c.id.equals(producto.categoria.id)? "selected" : ""}>${c.nombre}</option>
+									</c:forEach>
 								</select>
 							</div>
-							<%if(errores != null && errores.containsKey("categoria")){ %>
-									<div style="color:red;"><%=errores.get("categoria") %></div>
-							<%} %>
+							<c:if test="${errores != null && !empty errores.categoria}">
+										<div style="color:red;">${errores.categoria}</div>
+							</c:if>
 						</div>
 					</div>
 
-
-					<input type="hidden" name="id" value="<%=producto.getId()%>"></input>
-					<input type="submit" class="btn btn-primary" value="<%=(producto.getId() != null && producto.getId() > 0)? "Editar":"Crear"%>"></button>
+					<hr>
+					<input type="hidden" name="id" value="${producto.id}"></input>
+					<input type="submit" class="btn btn-primary" value="${producto.id != null && producto.id > 0? "Editar":"Crear"}"></button>
 				</form>
 
 			</div>

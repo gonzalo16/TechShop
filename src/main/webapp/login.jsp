@@ -43,9 +43,9 @@
 								<form action="/TechShop/login" method="post">
 
 									<div data-mdb-input-init class="form-outline form-white mb-4">
-										<input type="email" id="email" name="email"
+										<input type="text" id="username" name="username"
 											class="form-control form-control-lg" /> <label
-											class="form-label" for="typeEmailX">Email</label>
+											class="form-label">Username</label>
 									</div>
 
 									<div data-mdb-input-init class="form-outline form-white mb-4">

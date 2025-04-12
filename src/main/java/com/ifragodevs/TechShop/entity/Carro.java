@@ -1,8 +1,11 @@
 package com.ifragodevs.TechShop.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.ifragodevs.TechShop.anotations.CarroCompra;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +14,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Carro {
+@CarroCompra
+public class Carro implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private List<ItemCarro> items = new ArrayList<>();
 	
 	public void addItem(ItemCarro item) {

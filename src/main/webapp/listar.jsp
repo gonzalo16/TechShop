@@ -1,10 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	import="java.util.*,com.ifragodevs.TechShop.entity.*"
-	pageEncoding="UTF-8"%>
-<%
-List<Producto> productos = (List<Producto>) request.getAttribute("productos");
-Optional<String> email = (Optional<String>) request.getAttribute("email");
-%>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,138 +21,89 @@ Optional<String> email = (Optional<String>) request.getAttribute("email");
 <body>
 
 	<div class="wrapper">
-		<!-- Sidebar  -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-				<h3>Bootstrap Sidebar</h3>
-			</div>
-
-			<ul class="list-unstyled components">
-				<p>Dummy Heading</p>
-				<li><a href="#" data-toggle="collapse" aria-expanded="false">Home</a></li>
-				<li><a href="/TechShop/productos.html" data-toggle="collapse"
-					aria-expanded="false">Productos</a></li>
-				<li><a href="/TechShop/carro.jsp" data-toggle="collapse"
-					aria-expanded="false">Carrito</a></li>
-				<li><a href="/TechShop/login.html" data-toggle="collapse"
-					aria-expanded="false">Login</a></li>
-
-			</ul>
-		</nav>
+		<!-- Aqui debemos agregar el archivo sidebar de layout  -->
+		<jsp:include page="layout/sidebar.jsp" />
 
 		<!-- Page Content  -->
 		<div id="content">
 
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
+			<!-- Navbar -->
+			<jsp:include page="layout/navbar.jsp" />
 
-					<button type="button" id="sidebarCollapse" class="btn btn-info">
-						<i class="fas fa-align-left"></i> <span>Toggle Sidebar</span>
-					</button>
-					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<i class="fas fa-align-justify"></i>
-					</button>
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="nav navbar-nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="#">Page</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-
-
-			<div class="container border rounded p-2">
-				<%
-				if (email.isPresent()) {
-				%>
-
+			<div class="container border rounded p-2 shadow">
 				<div class="row">
-					<div class="col-3">
-						<p>
-							Bienvenido:
-							<%=email.get()%></p>
-						<%
-						}
-						%>
-					</div>
-					<%
-					if (email.isPresent()) {
-					%>
-					<div class="col-9">
-						<a class="btn btn-primary"
-							href="<%=request.getContextPath()%>/productos/form" role="button">Añadir
-							producto</a>
-					</div>
-					<%
-					}
-					%>
-					<div class="row">
+					<c:if test="${username.isPresent()}">
+						<div class="col-3">
+							<p>
+								Bienvenido:
+								<c:out value="${username.get()}" />
+							</p>
+						</div>
+
+						<div class="col-9 ">
+							<a class="btn btn-primary"
+								href="<c:out value="${pageContext.request.contextPath}" />/productos/form"
+								role="button">Añadir producto</a>
+						</div>
+					</c:if>
+					<div class="row mt-2">
 						<div class="col">
-							<table class="table rounded">
+							<table class="table rounded table-striped">
 								<thead>
 									<tr>
 										<th scope="col">Id</th>
 										<th scope="col">Nombre</th>
 										<th scope="col">Categoria</th>
-										<%
-										if (email.isPresent()) {
-										%>
-										<th scope="col">Precio</th>
-										<th scope="col">Agregar</th>
-										<th scope="col">Editar</th>
-										<th scope="col">Eliminar</th>
-										<%
-										}
-										%>
+
+										<c:if test="${username.present}">
+											<th scope="col">Precio</th>
+											<th scope="col">Agregar</th>
+											<th scope="col">Editar</th>
+											<th scope="col">Eliminar</th>
+										</c:if>
+
 									</tr>
 								</thead>
 								<tbody>
-									<%
-									for (Producto p : productos) {
-									%>
-									<tr>
-										<td><%=p.getId()%></td>
-										<td><%=p.getNombre()%></td>
-										<td><%=p.getCategoria().getNombre()%></td>
-										<%
-										if (email.isPresent()) {
-										%>
-										<td><%=p.getPrecio()%></td>
-										<td><a
-											class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-											href="<%=request.getContextPath()%>/agregar-carro?id=<%=p.getId()%>">Agregar
-												al carrito</a></td>
-										<td><a
-											class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-											href="<%=request.getContextPath()%>/productos/form?id=<%=p.getId()%>">Editar</a></td>
-										<td><a
-											onclick="return confirm('¿Estas seguro que desea eliminar?');" class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-											href="<%=request.getContextPath()%>/productos/eliminar?id=<%=p.getId()%>">Eliminar</a></td>
-										<%
-										}
-										%>
-									</tr>
-
-									<%
-									}
-									%>
+									<c:forEach items="${productos}" var="p">
+										<tr>
+											<td><c:out value="${p.id}" /></td>
+											<td><c:out value="${p.nombre}" /></td>
+											<td><c:out value="${p.categoria.nombre}" /></td>
+											<c:if test="${username.present}">
+												<td><c:out value="${p.precio}" /></td>
+												<td><a
+													class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+													href="${pageContext.request.contextPath}/agregar-carro?id=<c:out value="${p.id}"/>">Agregar
+														al carrito</a></td>
+												<td><a
+													class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+													href="${pageContext.request.contextPath}/productos/form?id=<c:out value="${p.id}"/>">Editar</a></td>
+												<td><a
+													onclick="return confirm('¿Estas seguro que desea eliminar?');"
+													class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+													href="${pageContext.request.contextPath}/productos/eliminar?id=<c:out value="${p.id}"/>">Eliminar</a></td>
+											</c:if>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
+
+							<div>
+								<nav aria-label="Page navigation example">
+									<ul class="pagination">
+										<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+										<li class="page-item"><a class="page-link" href="#">1</a></li>
+										<li class="page-item"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item"><a class="page-link" href="#">Next</a></li>
+									</ul>
+								</nav>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 	<script src="script.js"></script>
