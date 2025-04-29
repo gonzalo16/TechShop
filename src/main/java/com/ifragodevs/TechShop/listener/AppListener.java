@@ -10,11 +10,11 @@ import jakarta.servlet.http.HttpSessionListener;
 
 @WebListener
 public class AppListener implements ServletContextListener, ServletRequestListener, HttpSessionListener{
-
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		sce.getServletContext().log("App inicializando...");
+		
 	}
 
 	@Override
@@ -24,29 +24,22 @@ public class AppListener implements ServletContextListener, ServletRequestListen
 	
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		// TODO Auto-generated method stub
 		HttpSessionListener.super.sessionCreated(se);
 	}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
-		// TODO Auto-generated method stub
 		HttpSessionListener.super.sessionDestroyed(se);
 	}
 
 	@Override
 	public void requestDestroyed(ServletRequestEvent sre) {
-		// TODO Auto-generated method stub
 		ServletRequestListener.super.requestDestroyed(sre);
 	}
 
 	@Override
 	public void requestInitialized(ServletRequestEvent sre) {
-		// TODO Auto-generated method stub
 		ServletRequestListener.super.requestInitialized(sre);
 	}
 
-	
-
-	
 }

@@ -1,65 +1,48 @@
 package com.ifragodevs.TechShop.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import com.ifragodevs.TechShop.anotations.RepositoryAnnotation;
+import com.ifragodevs.TechShop.anotations.Repository;
+import com.ifragodevs.TechShop.anotations.RepositoryJpa;
 import com.ifragodevs.TechShop.entity.Usuario;
 
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
 
-@RepositoryAnnotation
-public class UsuarioRepositoryImpl implements UsuarioRepository{
-	
+@Repository
+@RepositoryJpa
+public class UsuarioRepositoryImpl implements UsuarioRepository {
+
 	@Inject
-	@Named("connBean")
-	private Connection conn;
-	
+	private EntityManager em;
+
 	@Override
-	public List<Usuario> listar() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Usuario> listar() throws Exception {
+		return em.createQuery("from Usuario", Usuario.class).getResultList();
 	}
 
 	@Override
-	public Usuario findById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Usuario findById(Integer id) throws Exception {
+		return em.find(Usuario.class, id);
 	}
 
 	@Override
-	public void save(Usuario t) throws SQLException {
+	public void save(Usuario t) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void eliminar(Integer id) throws SQLException {
+	public void eliminar(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public Usuario findByUsername(String username) throws SQLException {
-		Usuario usuario = null;
-		
-		try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM usuarios WHERE username=?")){
-			stmt.setString(1, username);
-			try(ResultSet rs = stmt.executeQuery()){
-				if(rs.next()) {
-					usuario = new Usuario();
-					usuario.setId(rs.getLong("id"));
-					usuario.setUsername(rs.getString("username"));
-					usuario.setEmail(rs.getString("email"));
-					usuario.setPassword(rs.getString("password"));
-				}
-			}
-		}
-		return usuario;
+	public Usuario findByUsername(String username) throws Exception {
+
+		return em.createQuery("select u from Usuario u where u.username = :username", Usuario.class)
+				.setParameter("username", username).getSingleResult();
 	}
 
 }

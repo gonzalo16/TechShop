@@ -1,12 +1,10 @@
 package com.ifragodevs.TechShop.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.ifragodevs.TechShop.configs.ProductoServicePrincipal;
+import com.ifragodevs.TechShop.anotations.ProductoServicePrincipal;
 import com.ifragodevs.TechShop.entity.Producto;
 import com.ifragodevs.TechShop.service.LoginService;
 import com.ifragodevs.TechShop.service.ProductoService;
@@ -18,14 +16,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/productos.html","/productos"})
+@WebServlet({"/productos"})
 public class ProductoServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	@ProductoServicePrincipal
-	private ProductoService service;
+	private ProductoService productoService;
 	
 	@Inject
 	private LoginService loginService;
@@ -33,17 +31,12 @@ public class ProductoServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		List<Producto> productos = new ArrayList<>();
-		try {
-			productos = service.listar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		List<Producto> productos = productoService.listar();
+
 		Optional<String> username = loginService.getUsername(req);
-		
+
 		req.setAttribute("productos", productos);
 		req.setAttribute("username", username);
-		getServletContext().getRequestDispatcher("/listar.jsp").forward(req, resp);
+		getServletContext().getRequestDispatcher("/lista_tabla_productos.jsp").forward(req, resp);
 	}
 }

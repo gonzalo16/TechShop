@@ -1,9 +1,8 @@
 package com.ifragodevs.TechShop.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
-import com.ifragodevs.TechShop.configs.ProductoServicePrincipal;
+import com.ifragodevs.TechShop.anotations.ProductoServicePrincipal;
 import com.ifragodevs.TechShop.entity.Carro;
 import com.ifragodevs.TechShop.entity.ItemCarro;
 import com.ifragodevs.TechShop.entity.Producto;
@@ -32,13 +31,7 @@ public class AgregarCarroServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
 		Integer idProducto = Integer.parseInt(req.getParameter("id"));
 		
-		Producto producto = null;
-		try {
-			producto = productoService.findById(idProducto);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		Producto producto = productoService.findById(idProducto);
 		if(producto!=null) {
 			ItemCarro item = new ItemCarro(1,producto);			
 			carro.addItem(item);
@@ -46,6 +39,4 @@ public class AgregarCarroServlet extends HttpServlet{
 		
 		resp.sendRedirect(req.getContextPath() + "/ver-carro");
 	}
-
-	
 }

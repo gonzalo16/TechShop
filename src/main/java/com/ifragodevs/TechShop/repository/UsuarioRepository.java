@@ -1,10 +1,8 @@
 package com.ifragodevs.TechShop.repository;
 
-import java.sql.SQLException;
-
 import com.ifragodevs.TechShop.entity.Usuario;
 
-public interface UsuarioRepository extends Repository<Usuario>{
+public interface UsuarioRepository extends CrudRepository<Usuario>{
 
-	Usuario findByUsername(String username) throws SQLException;
+	Usuario findByUsername(String username) throws Exception;
 }

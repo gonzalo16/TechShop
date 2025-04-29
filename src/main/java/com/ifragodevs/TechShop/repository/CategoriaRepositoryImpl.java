@@ -1,58 +1,50 @@
 package com.ifragodevs.TechShop.repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.ifragodevs.TechShop.anotations.RepositoryAnnotation;
+import com.ifragodevs.TechShop.anotations.Repository;
+import com.ifragodevs.TechShop.anotations.RepositoryJpa;
 import com.ifragodevs.TechShop.entity.Categoria;
 
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
 
-@RepositoryAnnotation
-public class CategoriaRepositoryImpl implements Repository<Categoria>{
-	
+@Repository
+@RepositoryJpa
+public class CategoriaRepositoryImpl implements CrudRepository<Categoria> {
+
 	@Inject
-	@Named("connBean")
-	private Connection conn;
+	private EntityManager em;
 
 	@Override
-	public List<Categoria> listar() throws SQLException {
-		List<Categoria> listaCategorias = new ArrayList<>();
-		try(Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM categorias")){
-				
-					while(rs.next()) {
-						Categoria c = new Categoria();
-						c.setId(rs.getInt("id"));
-						c.setNombre(rs.getString("nombre"));
-						listaCategorias.add(c);
-					}
-				}
-		return listaCategorias;
+	public List<Categoria> listar() throws Exception {
+
+		List<Categoria> categorias = em.createQuery("SELECT c FROM Categoria c", Categoria.class).getResultList();
+		return categorias;
 
 	}
 
 	@Override
-	public Categoria findById(Integer id) throws SQLException {
+	public Categoria findById(Integer id) throws Exception {
+		Categoria categoria = em.find(Categoria.class, id);
+		return categoria;
+	}
+
+	@Override
+	public void save(Categoria t) {
+
+		if (t.getId() != null && t.getId() > 0) {
+			em.merge(t);
+		} else {
+			em.persist(t);
+		}
+
+	}
+
+	@Override
+	public void eliminar(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
-	@Override
-	public void save(Categoria t) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eliminar(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -15,6 +14,9 @@
 	crossorigin="anonymous">
 
 <link href="style.css" rel="stylesheet">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+	rel="stylesheet">
 
 </head>
 
@@ -30,21 +32,46 @@
 			<!-- Navbar -->
 			<jsp:include page="layout/navbar.jsp" />
 
+			<!-- Filtros  -->
+			<div class="">
+				<div class="mb-4 p-3 bg-white rounded shadow-sm my-1">
+					<div class="d-flex flex-wrap gap-2 align-items-center">
+						<span class="fw-semibold me-2">Filtrar por:</span>
+						<button class="btn btn-outline-secondary btn-sm">
+							<i class="fas fa-tags me-1"></i> Categoría
+						</button>
+						<button class="btn btn-outline-secondary btn-sm">
+							<i class="fas fa-dollar-sign me-1"></i> Precio
+						</button>
+						<button class="btn btn-outline-secondary btn-sm">
+							<i class="fas fa-star me-1"></i> Valoración
+						</button>
+						<span class="fw-semibold ms-4 me-2">Ordenar por:</span>
+						<button class="btn btn-outline-primary btn-sm">
+							<i class="fas fa-sort-amount-down me-1"></i> Precio menor
+						</button>
+						<button class="btn btn-outline-primary btn-sm">
+							<i class="fas fa-sort-amount-up me-1"></i> Precio mayor
+						</button>
+						<button class="btn btn-outline-primary btn-sm">
+							<i class="fas fa-fire me-1"></i> Más vendido
+						</button>
+					</div>
+				</div>
+			</div>
+
 			<div class="container border rounded p-2 shadow">
 				<div class="row">
-					<c:if test="${username.isPresent()}">
-						<div class="col-3">
-							<p>
-								Bienvenido:
-								<c:out value="${username.get()}" />
-							</p>
-						</div>
+					<c:if test="${username.present}">
 
 						<div class="col-9 ">
-							<a class="btn btn-primary"
+							<span class="badge text-bg-primary">Usuario: <c:out
+									value="${username.get()}" /></span> <a class="btn btn-primary"
 								href="<c:out value="${pageContext.request.contextPath}" />/productos/form"
-								role="button">Añadir producto</a>
+								role="button"><i class="bi bi-plus-lg"></i>Añadir producto</a>
 						</div>
+
+
 					</c:if>
 					<div class="row mt-2">
 						<div class="col">

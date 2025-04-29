@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet{
 				writer.print("</head>");
 					writer.print("<body>");
 					writer.print("<h1>has iniciado sesion con éxito</h1>");
-					writer.println("<p><a href='" + req.getContextPath() + "/productos.html'>volver</a></p>");
+					writer.println("<p><a href='" + req.getContextPath() + "/index.jsp'>volver</a></p>");
 					writer.print("</body>");
 			writer.print("</html>");
 			writer.close();
