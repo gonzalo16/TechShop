@@ -2,7 +2,6 @@ package com.ifragodevs.TechShop.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import com.ifragodevs.TechShop.anotations.ProductoServicePrincipal;
 import com.ifragodevs.TechShop.entity.Producto;
@@ -33,7 +32,7 @@ public class ProductoServlet extends HttpServlet{
 		
 		List<Producto> productos = productoService.listar();
 
-		Optional<String> username = loginService.getUsername(req);
+		String username = loginService.getUsername(req);
 
 		req.setAttribute("productos", productos);
 		req.setAttribute("username", username);

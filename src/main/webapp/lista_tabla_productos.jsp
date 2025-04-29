@@ -62,11 +62,10 @@
 
 			<div class="container border rounded p-2 shadow">
 				<div class="row">
-					<c:if test="${username.present}">
+					<c:if test="${not empty username}">
 
 						<div class="col-9 ">
-							<span class="badge text-bg-primary">Usuario: <c:out
-									value="${username.get()}" /></span> <a class="btn btn-primary"
+							<a class="btn btn-primary"
 								href="<c:out value="${pageContext.request.contextPath}" />/productos/form"
 								role="button"><i class="bi bi-plus-lg"></i>Añadir producto</a>
 						</div>
@@ -82,7 +81,7 @@
 										<th scope="col">Nombre</th>
 										<th scope="col">Categoria</th>
 
-										<c:if test="${username.present}">
+										<c:if test="${not empty username}">
 											<th scope="col">Precio</th>
 											<th scope="col">Agregar</th>
 											<th scope="col">Editar</th>
@@ -97,7 +96,7 @@
 											<td><c:out value="${p.id}" /></td>
 											<td><c:out value="${p.nombre}" /></td>
 											<td><c:out value="${p.categoria.nombre}" /></td>
-											<c:if test="${username.present}">
+											<c:if test="${not empty username}">
 												<td><c:out value="${p.precio}" /></td>
 												<td><a
 													class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"

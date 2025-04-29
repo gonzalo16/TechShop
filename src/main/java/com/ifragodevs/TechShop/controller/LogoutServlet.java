@@ -1,7 +1,6 @@
 package com.ifragodevs.TechShop.controller;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import com.ifragodevs.TechShop.service.LoginService;
 
@@ -23,9 +22,9 @@ public class LogoutServlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Optional<String> username = loginService.getUsername(req);
+		String username = loginService.getUsername(req);
 		
-		if(username.isPresent()) {
+		if(username != null) {
 			HttpSession sessionOut = req.getSession();
 			sessionOut.invalidate();
 		}

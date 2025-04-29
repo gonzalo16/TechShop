@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +24,10 @@
 					<button type="submit" class="btn btn-primary">Buscar</button>
 				</div>
 				<div class="col-3">
-
+					<c:if test="${not empty username}">
+						<span class="badge rounded-pill text-bg-primary">Usuario: <c:out
+									value="${username}" /></span>
+					</c:if>
 				</div>
 			</div>
 		</div>

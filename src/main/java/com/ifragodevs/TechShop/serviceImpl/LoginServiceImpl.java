@@ -1,7 +1,5 @@
 package com.ifragodevs.TechShop.serviceImpl;
 
-import java.util.Optional;
-
 import com.ifragodevs.TechShop.service.LoginService;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,12 +10,12 @@ import jakarta.servlet.http.HttpSession;
 public class LoginServiceImpl implements LoginService{
 
 	@Override
-	public Optional<String> getUsername(HttpServletRequest request) {
+	public String getUsername(HttpServletRequest request) {
 		HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         if (username != null) {
-            return Optional.of(username);
+            return username;
         }
-        return Optional.empty();
+        return null;
 	}
 }

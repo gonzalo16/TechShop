@@ -12,7 +12,7 @@
 	crossorigin="anonymous">
 
 <link href="${pageContext.request.contextPath}/style.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 <body>
@@ -30,15 +30,10 @@
 				
 				
 					<c:if test="${username == null}">
-					<li><a href="/TechShop/login.html" data-toggle="collapse"
+					<li><a href="/TechShop/login.jsp" data-toggle="collapse"
 					aria-expanded="false"><i class="bi bi-person me-2"></i>Login</a></li>
 					</c:if>
-					
-					<c:if test="${username != null}">
-					<li><a href="${pageContext.request.contextPath}/logout" data-toggle="collapse"
-					aria-expanded="false"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
-					</c:if>
-				
+									
 			</ul>
 	</nav>
 </body>
